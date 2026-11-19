@@ -1,17 +1,69 @@
 RATES = {"bike": 10, "car": 30, "truck": 60}
 
+
 def minutes_parked(times):
-    entry, exit_time = times.split('-')
-    h1, m1 = entry.split(':')
-    h2, m2 = exit_time.split(':')
-    return (int(h2) * 60 + int(m2)) - (int(h1) * 60 + int(m1))
+    if not isinstance(times, str):
+        raise ValueError("times must be a string")
+
+    times = times.strip()
+    parts = times.split("-")
+    if len(parts) != 2:
+        raise ValueError("times must use HH:MM-HH:MM format")
+
+    def parse_time(value):
+        fields = value.split(":")
+        if (
+            len(fields) != 2
+            or any(len(field) != 2 or not field.isascii() or not field.isdigit() for field in fields)
+        ):
+            raise ValueError("time must use HH:MM format")
+        hour, minute = map(int, fields)
+        if hour > 23 or minute > 59:
+            raise ValueError("time is outside the 24-hour clock")
+        return hour * 60 + minute
+
+    entry, exit_time = map(parse_time, parts)
+    duration = exit_time - entry
+    return duration if duration >= 0 else duration + 24 * 60
+
 
 def hourly_rate(vehicle):
-    return RATES[vehicle.strip().lower()]
+    if not isinstance(vehicle, str):
+        raise ValueError("unknown vehicle")
+    normalized_vehicle = vehicle.strip().lower()
+    if normalized_vehicle not in RATES:
+        raise ValueError("unknown vehicle")
+    return RATES[normalized_vehicle]
+
 
 def format_plate(plate):
-    p = plate.upper()
-    return p[0] + p[1] + " " + p[2:4] + " " + p[4:6] + " " + p[6:10]
+    if not isinstance(plate, str):
+        raise ValueError("plate must be a string")
+    normalized_plate = plate.strip().upper()
+    if (
+        len(normalized_plate) != 10
+        or not (
+            normalized_plate[:2].isascii()
+            and normalized_plate[:2].isalpha()
+            and normalized_plate[2:4].isascii()
+            and normalized_plate[2:4].isdigit()
+            and normalized_plate[4:6].isascii()
+            and normalized_plate[4:6].isalpha()
+            and normalized_plate[6:10].isascii()
+            and normalized_plate[6:10].isdigit()
+        )
+    ):
+        raise ValueError("plate must use the LLDDLLDDDD format")
+    return (
+        normalized_plate[:2]
+        + " "
+        + normalized_plate[2:4]
+        + " "
+        + normalized_plate[4:6]
+        + " "
+        + normalized_plate[6:10]
+    )
+
 
 def main():
     print("==== Running minutes_parked ====")
