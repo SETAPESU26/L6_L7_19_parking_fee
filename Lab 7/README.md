@@ -2,11 +2,13 @@
 
 Lab 7: Fuzz Testing
 
-## Files
+## Tests
 
-| File | Description |
-|------|-------------|
-| `parking_fee.py` | Buggy code to test and fix |
-| `test_parking_fee.py` | Fuzz test file to complete using Hypothesis |
+Install the repository test dependencies from the repository root, then run:
 
-Refer to the lab handout for instructions.
+```sh
+python -m pip install -r requirements.txt
+python -m pytest
+```
+
+The Hypothesis tests generate valid parking-time ranges and license plates, and exercise invalid inputs. Parking times use a 24-hour clock; an exit time earlier than the entry time is treated as the following day. Plates use the `LLDDLLDDDD` layout (two letters, two digits, two letters, four digits).
