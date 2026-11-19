@@ -10,8 +10,16 @@ A small Python module that works out parking fees by vehicle and duration, assig
 
 Run the tests and measure line and branch coverage from this directory:
 
-```sh
-python -m pytest --cov=parking_fee --cov-branch --cov-report=term-missing
-```
+Refer to the lab handout for instructions.
 
-The test suite covers the fee boundaries, vehicle-specific rates, EV and lost-ticket adjustments, slot assignment, monthly-pass discounts, and invalid inputs.
+## Student submission
+
+**Student:** Armaan Ali  
+**SRN:** PES2UG24CS083
+
+| Deliverable | File |
+|-------------|------|
+| Code coverage tests | `CodeCoverageTest_ArmaanAli_parking_fee.py` |
+| Branch coverage tests | `BranchCoverageTest_ArmaanAli_parking_fee.py` |
+| Code coverage terminal screenshot | `screenshots/code_coverage.png` |
+| Branch coverage terminal screenshot | `screenshots/branch_coverage.png` |
